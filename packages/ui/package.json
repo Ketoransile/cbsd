@@ -10,7 +10,7 @@
     "./layouts/*": "./src/layouts/*.tsx",
     "./lib/*": "./src/lib/*.ts",
     "./utils/*": "./src/utils/*.ts",
-    "./styles/*": "./src/styles/*.css"
+    "./globals.css": "./src/styles/globals.css"
   },
   "scripts": {
     "build": "tsc --noEmit",

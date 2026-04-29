@@ -3,8 +3,8 @@
 import * as React from "react"
 import { format, subDays, startOfWeek, addDays, getDay } from "date-fns"
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/card"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/tooltip"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@workspace/ui/components/card"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@workspace/ui/components/tooltip"
 
 interface StreakCalendarProps {
   data?: Record<string, number> // YYYY-MM-DD -> completion level (0-4)

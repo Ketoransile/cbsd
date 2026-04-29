@@ -3,12 +3,12 @@
 import * as React from "react"
 import { Flame, Check, Calendar as CalendarIcon, MoreHorizontal } from "lucide-react"
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/card"
-import { Badge } from "@/components/badge"
-import { Progress } from "@/components/progress"
-import { Checkbox } from "@/components/checkbox"
-import { Button } from "@/components/button"
-import type { Habit } from "@/types/habit"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@workspace/ui/components/card"
+import { Badge } from "@workspace/ui/components/badge"
+import { Progress } from "@workspace/ui/components/progress"
+import { Checkbox } from "@workspace/ui/components/checkbox"
+import { Button } from "@workspace/ui/components/button"
+import type { Habit } from "@workspace/ui/types/habit"
 
 interface HabitTrackerProps {
   habits?: Habit[]

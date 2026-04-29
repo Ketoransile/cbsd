@@ -2,11 +2,11 @@
 
 import * as React from "react"
 import { Play, Pause, RotateCcw, Coffee } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/card"
-import { Button } from "@/components/button"
-import { Progress } from "@/components/progress"
-import { Badge } from "@/components/badge"
-import { useFocusTimer } from "@/hooks/use-focus-timer"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@workspace/ui/components/card"
+import { Button } from "@workspace/ui/components/button"
+import { Progress } from "@workspace/ui/components/progress"
+import { Badge } from "@workspace/ui/components/badge"
+import { useFocusTimer } from "@workspace/ui/hooks/use-focus-timer"
 
 export function FocusTimer() {
   const {

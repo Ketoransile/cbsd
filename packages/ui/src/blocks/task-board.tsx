@@ -4,11 +4,11 @@ import * as React from "react"
 import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd"
 import { MoreHorizontal, Calendar, Clock, AlertCircle, CheckCircle2 } from "lucide-react"
 
-import { Card, CardContent, CardHeader } from "@/components/card"
-import { Badge } from "@/components/badge"
-import { ScrollArea, ScrollBar } from "@/components/scroll-area"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar"
-import type { Task, TaskStatus } from "@/types/task"
+import { Card, CardContent, CardHeader } from "@workspace/ui/components/card"
+import { Badge } from "@workspace/ui/components/badge"
+import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area"
+import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar"
+import type { Task, TaskStatus } from "@workspace/ui/types/task"
 
 interface TaskBoardProps {
   tasks?: Task[]

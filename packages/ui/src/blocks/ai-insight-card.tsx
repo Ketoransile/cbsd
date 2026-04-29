@@ -3,12 +3,12 @@
 import * as React from "react"
 import { Sparkles, ArrowRight, Lightbulb, TrendingUp, Brain } from "lucide-react"
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/card"
-import { Badge } from "@/components/badge"
-import { Button } from "@/components/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar"
-import { Skeleton } from "@/components/skeleton"
-import type { Insight } from "@/types/insight"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Badge } from "@workspace/ui/components/badge"
+import { Button } from "@workspace/ui/components/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar"
+import { Skeleton } from "@workspace/ui/components/skeleton"
+import type { Insight } from "@workspace/ui/types/insight"
 
 interface AIInsightCardProps {
   insight?: Insight

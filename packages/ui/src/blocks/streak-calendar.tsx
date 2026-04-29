@@ -31,7 +31,7 @@ export function StreakCalendar({
   })
 
   // Group by weeks
-  const weeksData = []
+  const weeksData: { date: Date; dateStr: string; level: number }[][] = []
   for (let i = 0; i < days.length; i += 7) {
     weeksData.push(days.slice(i, i + 7))
   }

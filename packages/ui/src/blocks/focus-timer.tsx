@@ -1,14 +1,18 @@
 "use client"
 
 import * as React from "react"
-import { Play, Pause, RotateCcw, Coffee } from "lucide-react"
+import { Play, Pause, RotateCcw } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@workspace/ui/components/card"
 import { Button } from "@workspace/ui/components/button"
 import { Progress } from "@workspace/ui/components/progress"
 import { Badge } from "@workspace/ui/components/badge"
 import { useFocusTimer } from "@workspace/ui/hooks/use-focus-timer"
 
-export function FocusTimer() {
+interface FocusTimerProps {
+  onSessionComplete?: (sessionType: "work" | "break", durationMinutes: number) => void
+}
+
+export function FocusTimer({ onSessionComplete }: FocusTimerProps = {}) {
   const {
     timeLeft,
     progress,
@@ -16,7 +20,7 @@ export function FocusTimer() {
     sessionType,
     toggleTimer,
     resetTimer,
-  } = useFocusTimer()
+  } = useFocusTimer({ onSessionComplete })
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60)

@@ -1,6 +1,9 @@
-import { FocusTimer } from "@workspace/ui/blocks/focus-timer"
+import { getTodayFocusStats } from "@/lib/actions/focus"
+import FocusClient from "./focus-client"
 
-export default function FocusPage() {
+export default async function FocusPage() {
+  const stats = await getTodayFocusStats()
+
   return (
     <div className="flex-1 space-y-8 p-8 pt-6 h-[calc(100vh-4rem)] flex flex-col">
       <div className="flex items-center justify-between space-y-2">
@@ -13,9 +16,21 @@ export default function FocusPage() {
       </div>
       
       <div className="grid gap-8 md:grid-cols-12 flex-1 min-h-0">
-        <div className="col-span-12 md:col-span-5 lg:col-span-4 flex justify-center items-start">
-          <div className="sticky top-8 w-full flex justify-center">
-            <FocusTimer />
+        <div className="col-span-12 md:col-span-5 lg:col-span-4 flex flex-col items-center gap-6">
+          <div className="sticky top-8 w-full flex flex-col items-center gap-6">
+            <FocusClient />
+            
+            {/* Today's Stats */}
+            <div className="w-full max-w-sm grid grid-cols-2 gap-4">
+              <div className="rounded-xl border bg-card p-4 shadow-sm text-center">
+                <h3 className="text-sm font-medium text-muted-foreground">Sessions Today</h3>
+                <div className="mt-1 text-2xl font-bold">{stats.sessionsCount}</div>
+              </div>
+              <div className="rounded-xl border bg-card p-4 shadow-sm text-center">
+                <h3 className="text-sm font-medium text-muted-foreground">Focus Minutes</h3>
+                <div className="mt-1 text-2xl font-bold text-primary">{stats.totalMinutes}</div>
+              </div>
+            </div>
           </div>
         </div>
         

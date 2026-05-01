@@ -2,43 +2,10 @@ import { ProductivityChart } from "@workspace/ui/blocks/productivity-chart"
 import { HabitTracker } from "@workspace/ui/blocks/habit-tracker"
 import { AIInsightCard } from "@workspace/ui/blocks/ai-insight-card"
 import type { Insight } from "@workspace/ui/types/insight"
+import { getHabits } from "@/lib/actions/habits"
 
-export default function DashboardPage() {
-  const mockHabits = [
-    {
-      id: "1",
-      name: "Morning Meditation",
-      description: "10 minutes of mindfulness",
-      frequency: "daily" as const,
-      targetDays: [0, 1, 2, 3, 4, 5, 6],
-      currentStreak: 12,
-      longestStreak: 15,
-      completionHistory: { [new Date().toISOString().split('T')[0]]: true },
-      createdAt: new Date(),
-    },
-    {
-      id: "2",
-      name: "Read Technical Book",
-      description: "1 chapter per day",
-      frequency: "daily" as const,
-      targetDays: [0, 1, 2, 3, 4, 5, 6],
-      currentStreak: 4,
-      longestStreak: 21,
-      completionHistory: {},
-      createdAt: new Date(),
-    },
-    {
-      id: "3",
-      name: "Exercise",
-      description: "30 mins cardio or strength",
-      frequency: "daily" as const,
-      targetDays: [0, 1, 2, 3, 4, 5, 6],
-      currentStreak: 0,
-      longestStreak: 45,
-      completionHistory: {},
-      createdAt: new Date(),
-    }
-  ]
+export default async function DashboardPage() {
+  const habits = await getHabits()
 
   const mockInsights: Insight[] = [
     {
@@ -83,7 +50,7 @@ export default function DashboardPage() {
         </div>
         
         <div className="col-span-3 space-y-6">
-          <HabitTracker habits={mockHabits} />
+          <HabitTracker habits={habits} />
         </div>
       </div>
     </div>

@@ -7,47 +7,16 @@ import { HabitTracker } from "@workspace/ui/blocks/habit-tracker"
 import { StreakCalendar } from "@workspace/ui/blocks/streak-calendar"
 import { Button } from "@workspace/ui/components/button"
 import type { Habit } from "@workspace/ui/types/habit"
+import { toggleHabitCompletion } from "@/lib/actions/habits"
 
-const INITIAL_HABITS: Habit[] = [
-  {
-    id: "h1",
-    name: "Morning Meditation",
-    description: "10 minutes of mindfulness",
-    frequency: "daily",
-    targetDays: [0, 1, 2, 3, 4, 5, 6],
-    currentStreak: 12,
-    longestStreak: 15,
-    completionHistory: { [new Date().toISOString().split('T')[0]]: true },
-    createdAt: new Date(),
-  },
-  {
-    id: "h2",
-    name: "Read Technical Book",
-    description: "1 chapter per day",
-    frequency: "daily",
-    targetDays: [0, 1, 2, 3, 4, 5, 6],
-    currentStreak: 4,
-    longestStreak: 21,
-    completionHistory: {},
-    createdAt: new Date(),
-  },
-  {
-    id: "h3",
-    name: "Exercise",
-    description: "30 mins cardio or strength",
-    frequency: "daily",
-    targetDays: [0, 1, 2, 3, 4, 5, 6],
-    currentStreak: 0,
-    longestStreak: 45,
-    completionHistory: {},
-    createdAt: new Date(),
-  }
-]
+interface HabitsPageProps {
+  initialHabits: Habit[]
+}
 
-export default function HabitsPage() {
-  const [habits, setHabits] = React.useState<Habit[]>(INITIAL_HABITS)
+export default function HabitsPageClient({ initialHabits }: HabitsPageProps) {
+  const [habits, setHabits] = React.useState<Habit[]>(initialHabits)
 
-  // Generate mock streak data
+  // Generate mock streak data for the visualization for now
   const generateMockStreakData = () => {
     const data: Record<string, number> = {}
     const today = new Date()
@@ -55,14 +24,15 @@ export default function HabitsPage() {
       const d = new Date(today)
       d.setDate(d.getDate() - i)
       const dateStr = d.toISOString().split('T')[0]
-      // Random activity level 0-4
       data[dateStr] = Math.floor(Math.random() * 5)
     }
     return data
   }
 
-  const handleToggleHabit = (id: string, completed: boolean) => {
+  const handleToggleHabit = async (id: string, completed: boolean) => {
     const dateStr = new Date().toISOString().split('T')[0]
+    
+    // Optimistic update
     setHabits(current => current.map(h => {
       if (h.id === id) {
         return {
@@ -75,6 +45,9 @@ export default function HabitsPage() {
       }
       return h
     }))
+
+    // Server update
+    await toggleHabitCompletion(id, completed)
   }
 
   return (
@@ -99,14 +72,14 @@ export default function HabitsPage() {
           
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-xl border bg-card p-6 shadow-sm">
-              <h3 className="text-sm font-medium text-muted-foreground">Current Best Streak</h3>
-              <div className="mt-2 text-3xl font-bold">12 days</div>
-              <p className="text-xs text-muted-foreground mt-1">Morning Meditation</p>
+              <h3 className="text-sm font-medium text-muted-foreground">Total Habits Tracked</h3>
+              <div className="mt-2 text-3xl font-bold">{habits.length}</div>
+              <p className="text-xs text-muted-foreground mt-1">Active routines</p>
             </div>
             <div className="rounded-xl border bg-card p-6 shadow-sm">
-              <h3 className="text-sm font-medium text-muted-foreground">Completion Rate</h3>
-              <div className="mt-2 text-3xl font-bold text-primary">84%</div>
-              <p className="text-xs text-muted-foreground mt-1">Last 30 days</p>
+              <h3 className="text-sm font-medium text-muted-foreground">Overall Completion</h3>
+              <div className="mt-2 text-3xl font-bold text-primary">--</div>
+              <p className="text-xs text-muted-foreground mt-1">Today</p>
             </div>
           </div>
         </div>

@@ -13,7 +13,7 @@
     "./globals.css": "./src/styles/globals.css"
   },
   "scripts": {
-    "build": "tsc --noEmit",
+    "build": "node init && tsc --noEmit",
     "lint": "eslint \"src/**/*.ts*\"",
     "check-types": "tsc --noEmit"
   },

@@ -14,12 +14,24 @@ import {
   Zap,
   Menu,
   X,
+  Loader2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { authClient } from "@/lib/auth-client"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar"
 import { Button } from "@workspace/ui/components/button"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@workspace/ui/components/alert-dialog"
 
 const NAV_ITEMS = [
   { href: "/", label: "Overview", icon: LayoutDashboard },
@@ -59,9 +71,22 @@ function NavLink({ href, label, icon: Icon }: (typeof NAV_ITEMS)[0]) {
 }
 
 function SidebarContent({ user }: SidebarProps) {
+  const [signingOut, setSigningOut] = React.useState(false)
+
   const initials = user.name
     ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
     : user.email?.[0]?.toUpperCase() ?? "U"
+
+  const handleSignOut = async () => {
+    setSigningOut(true)
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.href = "/login";
+        },
+      },
+    });
+  }
 
   return (
     <div className="flex h-full flex-col">
@@ -97,25 +122,45 @@ function SidebarContent({ user }: SidebarProps) {
             <p className="text-sm font-medium truncate">{user.name ?? "User"}</p>
             <p className="text-xs text-muted-foreground truncate">{user.email}</p>
           </div>
-          <div onClick={async () => {
-            await authClient.signOut({
-              fetchOptions: {
-                onSuccess: () => {
-                  window.location.href = "/login";
-                },
-              },
-            });
-          }}>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 text-muted-foreground hover:text-destructive shrink-0"
-              title="Sign out"
-            >
-              <LogOut className="h-4 w-4" />
-            </Button>
-          </div>
+
+          {/* Sign-out confirmation dialog */}
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-destructive shrink-0"
+                title="Sign out"
+                disabled={signingOut}
+              >
+                {signingOut ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <LogOut className="h-4 w-4" />
+                )}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Sign out of NovaDash?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  You will be redirected to the login page. Any unsaved changes may be lost.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel disabled={signingOut}>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleSignOut}
+                  disabled={signingOut}
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90 gap-2"
+                >
+                  {signingOut && <Loader2 className="h-4 w-4 animate-spin" />}
+                  {signingOut ? "Signing out..." : "Sign out"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
     </div>
